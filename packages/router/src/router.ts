@@ -491,7 +491,7 @@ export function createRouter(options: RouterOptions): Router {
       }
       // pass encoded values to the matcher, so it can produce encoded path and fullPath
       matcherLocation = assign({}, rawLocation, {
-        params: encodeParams(rawLocation.params),
+        params: encodeParams(targetParams),
       })
       // current location params are decoded, we need to encode them in case the
       // matcher merges the params
@@ -719,7 +719,7 @@ export function createRouter(options: RouterOptions): Router {
                 : 1) > 30
             ) {
               warn(
-                `Detected a possibly infinite redirection in a navigation guard when going from "${from.fullPath}" to "${toLocation.fullPath}". Aborting to avoid a Stack Overflow. This might break in production if not fixed.`
+                `Detected a possibly infinite redirection in a navigation guard when going from "${from.fullPath}" to "${toLocation.fullPath}". Aborting to avoid a Stack Overflow.\n Are you always returning a new location within a navigation guard? That would lead to this error. Only return when redirecting or aborting, that should fix this. This might break in production if not fixed.`
               )
               return Promise.reject(
                 new Error('Infinite redirect in navigation guard')
@@ -776,6 +776,14 @@ export function createRouter(options: RouterOptions): Router {
   ): Promise<void> {
     const error = checkCanceledNavigation(to, from)
     return error ? Promise.reject(error) : Promise.resolve()
+  }
+
+  function runWithContext<T>(fn: () => T): T {
+    const app: App | undefined = installedApps.values().next().value
+    // support Vue < 3.3
+    return app && typeof app.runWithContext === 'function'
+      ? app.runWithContext(fn)
+      : fn()
   }
 
   // TODO: refactor the whole before guards by internally using router.beforeEach
@@ -907,7 +915,9 @@ export function createRouter(options: RouterOptions): Router {
   ): void {
     // navigation is confirmed, call afterGuards
     // TODO: wrap with error handlers
-    for (const guard of afterGuards.list()) guard(to, from, failure)
+    for (const guard of afterGuards.list()) {
+      runWithContext(() => guard(to, from, failure))
+    }
   }
 
   /**
@@ -1263,14 +1273,15 @@ export function createRouter(options: RouterOptions): Router {
     },
   }
 
-  return router
-}
+  // TODO: type this as NavigationGuardReturn or similar instead of any
+  function runGuardQueue(guards: Lazy<any>[]): Promise<any> {
+    return guards.reduce(
+      (promise, guard) => promise.then(() => runWithContext(guard)),
+      Promise.resolve()
+    )
+  }
 
-function runGuardQueue(guards: Lazy<any>[]): Promise<void> {
-  return guards.reduce(
-    (promise, guard) => promise.then(() => guard()),
-    Promise.resolve()
-  )
+  return router
 }
 
 function extractChangingRecords(

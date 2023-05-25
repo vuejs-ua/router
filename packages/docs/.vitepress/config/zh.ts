@@ -152,6 +152,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/zh/guide/advanced/lazy-loading.html',
             },
             {
+              text: '类型化路由',
+              link: '/zh/guide/advanced/typed-routes.html'
+            },
+            {
               text: '扩展 RouterLink',
               link: '/zh/guide/advanced/extending-router-link.html',
             },
@@ -170,6 +174,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: '从 Vue2 迁移',
               link: '/zh/guide/migration/index.html',
+            },
+            {
+              text: '关于中文翻译',
+              link: '/zh/about-translation.html',
             },
           ],
         },
