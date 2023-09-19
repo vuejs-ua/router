@@ -1,17 +1,17 @@
-# Migrating from Vue 2
+# Міграція з Vue 2
 
-Most of Vue Router API has remained unchanged during its rewrite from v3 (for Vue 2) to v4 (for Vue 3) but there are still a few breaking changes that you might encounter while migrating your application. This guide is here to help you understand why these changes happened and how to adapt your application to make it work with Vue Router 4.
+Більшість API Vue Router залишилася незмінною під час перепису з версії 3 (для Vue 2) на версію 4 (для Vue 3), але все ще є кілька критичних змін, з якими ви можете зіткнутися під час міграції програми. Цей посібник допоможе вам зрозуміти, чому відбулися ці зміни та як адаптувати вашу програму для роботи з Vue Router 4.
 
-## Breaking Changes
+## Несумісні зміни
 
-Changes are ordered by their usage. It is therefore recommended to follow this list in order.
+Зміни впорядковані за їх використанням. Тому рекомендується дотримуватися цього списку по порядку.
 
-### new Router becomes createRouter
+### new Router стає createRouter
 
-Vue Router is no longer a class but a set of functions. Instead of writing `new Router()`, you now have to call `createRouter`:
+Vue Router — це вже не клас, а набір функцій. Замість написання `new Router()`, тепер вам потрібно викликати `createRouter`:
 
 ```js
-// previously was
+// раніше було
 // import Router from 'vue-router'
 import { createRouter } from 'vue-router'
 
@@ -20,19 +20,19 @@ const router = createRouter({
 })
 ```
 
-### New `history` option to replace `mode`
+### Новий параметр `history` як заміна `mode`
 
-The `mode: 'history'` option has been replaced with a more flexible one named `history`. Depending on which mode you were using, you will have to replace it with the appropriate function:
+Параметр `mode: 'history'` було замінено більш гнучким під назвою `history`. Залежно від того, який режим ви використовували, вам доведеться замінити його на відповідну функцію:
 
 - `"history"`: `createWebHistory()`
 - `"hash"`: `createWebHashHistory()`
 - `"abstract"`: `createMemoryHistory()`
 
-Here is a full snippet:
+Ось повний фрагмент:
 
 ```js
 import { createRouter, createWebHistory } from 'vue-router'
-// there is also createWebHashHistory and createMemoryHistory
+// є також createWebHashHistory і createMemoryHistory
 
 createRouter({
   history: createWebHistory(),
@@ -40,24 +40,24 @@ createRouter({
 })
 ```
 
-On SSR, you need to manually pass the appropriate history:
+В SSR вам потрібно вручну передати відповідну історію:
 
 ```js
 // router.js
 let history = isServer ? createMemoryHistory() : createWebHistory()
 let router = createRouter({ routes, history })
-// somewhere in your server-entry.js
-router.push(req.url) // request url
+// десь у вашому server-entry.js
+router.push(req.url) // URL-адреса запиту
 router.isReady().then(() => {
-  // resolve the request
+  // вирішення запиту
 })
 ```
 
-**Reason**: enable tree shaking of non used histories as well as implementing custom histories for advanced use cases like native solutions.
+**Причина**: увімкніть струшування дерева невикористаних історій, а також запровадження користувацьких історій для розширених випадків використання, наприклад рідних рішень.
 
-### Moved the `base` option
+### Перенесено параметр `base`
 
-The `base` option is now passed as the first argument to `createWebHistory` (and other histories):
+Параметр `base` тепер передається як перший аргумент для `createWebHistory` (та інших історій):
 
 ```js
 import { createRouter, createWebHistory } from 'vue-router'
@@ -67,23 +67,23 @@ createRouter({
 })
 ```
 
-### Removal of the `fallback` option
+### Видалення параметра `fallback`
 
-The `fallback` option is no longer supported when creating the router:
+Параметр `fallback` більше не підтримується під час створення роутера:
 
 ```diff
 -new VueRouter({
 +createRouter({
 -  fallback: false,
-// other options...
+// інші варіанти...
 })
 ```
 
-**Reason**: All browsers supported by Vue support the [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API), allowing us to avoid hacks around modifying `location.hash` and directly use `history.pushState()`.
+**Причина**: Всі браузери, підтримувані Vue, підтримують [HTML5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API), що дозволяє нам уникнути хитрощів, пов'язаних зі зміною `location.hash`, і безпосередньо використовувати `history.pushState()`.
 
-### Removed `*` (star or catch all) routes
+### Видалення `*` (зірка або перехоплення всіх) шляхів
 
-Catch all routes (`*`, `/*`) must now be defined using a parameter with a custom regex:
+Перехоплення всі шляхів (`*`, `/*`) тепер потрібно визначати за допомогою параметра зі спеціальним регулярним виразом:
 
 ```js
 const routes = [
