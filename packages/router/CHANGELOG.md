@@ -1,3 +1,25 @@
+## [4.2.5](https://github.com/vuejs/router/compare/v4.2.4...v4.2.5) (2023-09-22)
+
+### Bug Fixes
+
+- **devtools:** display children with empty parent ([d7af338](https://github.com/vuejs/router/commit/d7af338d9e27e77ac109bf7495e057a2df9a8752)), closes [posva/unplugin-vue-router#235](https://github.com/posva/unplugin-vue-router/issues/235)
+
+## [4.2.4](https://github.com/vuejs/router/compare/v4.2.3...v4.2.4) (2023-07-06)
+
+### Bug Fixes
+
+- allow removing guards within the guard ([d60d36c](https://github.com/vuejs/router/commit/d60d36c49bbbd308618926ff0131890bfed2cdff))
+
+## [4.2.3](https://github.com/vuejs/router/compare/v4.2.2...v4.2.3) (2023-07-05)
+
+### Performance Improvements
+
+- use getter instead of `computed` for route location ([#1916](https://github.com/vuejs/router/issues/1916)) ([f1b839e](https://github.com/vuejs/router/commit/f1b839e7fc46d5b24dadb64cdc8e3cc95010ccfa))
+
+## [4.2.2](https://github.com/vuejs/router/compare/v4.2.1...v4.2.2) (2023-05-29)
+
+This version contains no code changes.
+
 ## [4.2.1](https://github.com/vuejs/router/compare/v4.2.0...v4.2.1) (2023-05-18)
 
 ### Bug Fixes
@@ -81,7 +103,7 @@ This change will break your app. This behavior has worked in some scenarios but 
 
   This is known an _transient state_ and since it's in a navigation guard, it will be preserved when reloading the page. [Check the documentation for more details](https://router.vuejs.org/guide/advanced/meta.html#typescript).
 
-Fixing #1497, required getting rid of unused params and therefore will broke this long standing anti-pattern usage.
+Fixing #1497, required getting rid of unused params and therefore will break this long standing anti-pattern usage.
 
 ### Bug Fixes
 
