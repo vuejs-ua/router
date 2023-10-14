@@ -1,11 +1,11 @@
 import { defineConfig } from 'vitepress'
-import { enConfig } from './en'
 import { sharedConfig } from './shared'
+import { ukConfig } from "./uk";
 
 export default defineConfig({
   ...sharedConfig,
 
   locales: {
-    root: { label: 'Українська', lang: 'uk-UA', link: '/', ...enConfig },
+    root: { label: 'Українська', lang: 'uk-UA', link: '/', ...ukConfig },
   },
 })

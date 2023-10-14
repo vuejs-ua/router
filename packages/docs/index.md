@@ -2,39 +2,39 @@
 layout: home
 
 title: Vue Router
-titleTemplate: The official Router for Vue.js
+titleTemplate: Офіційний роутер для Vue.js
 
 hero: 
   name: Vue Router
-  text: The official Router for Vue.js
-  tagline: Expressive, configurable and convenient routing for Vue.js
+  text: Офіційний роутер для Vue.js
+  tagline: Виразна, настроювана та зручна маршрутизація для Vue.js
   image:
     src: /logo.svg
     alt: Vue Router
   actions:
     - theme: brand
-      text: Get Started
+      text: Почати
       link: /installation
     - theme: cta vueschool
-      text: Free Video Course
+      text: Безкоштовний відеокурс
       link: https://vueschool.io/courses/vue-router-4-for-everyone?friend=vuerouter&utm_source=vuerouter&utm_medium=link&utm_campaign=homepage
     - theme: cta vue-mastery
-      text: Get the Vue Router Cheat Sheet
+      text: Отримайте шпаргалку Vue Router
       link: https://www.vuemastery.com/vue-router?coupon=ROUTER-DOCS&via=eduardo
 
 features:
-  - title: 🛣 Expressive route syntax
-    details: Define static and dynamic routes with an intuitive and powerful syntax.
-  - title: 🛑 Fine-grained Navigation control
-    details: Intercept any navigation and precisely control its outcome.
-  - title: 🧱 Component-based configuration
-    details: Map each route to the component that should display.
-  - title: 🔌 History modes
-    details: Choose between HTML5, Hash or Memory history modes.
-  - title: 🎚 Scroll control
-    details: Precisely control the scroll position in every page.
-  - title: 🌐 Automatic Encoding
-    details: Directly use unicode characters (你好) in your code.
+  - title: 🛣 Чіткий синтаксис маршруту
+    details: Визначайте статичні та динамічні маршрути за допомогою інтуїтивно зрозумілого та потужного синтаксису.
+  - title: 🛑 Точне керування навігацією
+    details: Перехоплюйте будь-яку навігацію та точно контролюйте її результат.
+  - title: 🧱 Конфігурація на основі компонентів
+    details: Зіставте кожен маршрут із компонентом, який має відображатися.
+  - title: 🔌 Режими історії
+    details: Виберіть між режимами HTML5, Hash або Memory history.
+  - title: 🎚 Керування прокруткою
+    details: Точний контроль положення прокрутки на кожній сторінці.
+  - title: 🌐 Автоматичне кодування
+    details: Безпосередньо використовуйте символи Unicode (ї) у своєму коді.
 ---
 
 <script setup>
