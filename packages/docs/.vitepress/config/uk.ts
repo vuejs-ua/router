@@ -1,6 +1,6 @@
 import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
-export const META_URL = 'https://router.vuejs.org/uk'
+export const META_URL = 'https://vue-router-ua.netlify.app/'
 export const META_TITLE = 'Vue Router'
 export const META_DESCRIPTION = 'Офіційний роутер для Vue.js'
 
