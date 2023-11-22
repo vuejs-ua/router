@@ -1,119 +1,122 @@
-# Routes' Matching Syntax
+# Синтаксис зіставлення шляхів
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/vue-router-4-advanced-routes-matching-syntax"
   title="Learn how to use advanced route routes' matching syntax"
 />
 
-Most applications will use static routes like `/about` and dynamic routes like `/users/:userId` like we just saw in [Dynamic Route Matching](./dynamic-matching.md), but Vue Router has much more to offer!
+Більшість застосунків використовуватимуть як статичні шляхи такі як  `/about` так і динамічні на кшталт `/users/:userId` як ми щойно побачили на [Dynamic Route Matching](./dynamic-matching.md), однак Vue Router може запропонувати набагато більше!
 
 :::tip
-For the sake of simplicity, all route records **are omitting the `component` property** to focus on the `path` value.
+Для простішого розуміння,при налаштуванні шляхів **ми пропускаємо властивість `component`** для того щоб зосередитись на значенні властивості `path`
 :::
 
-## Custom regex in params
+## Власні регулярні вирази в параметрах
 
-When defining a param like `:userId`, we internally use the following regex `([^/]+)` (at least one character that isn't a slash `/`) to extract params from URLs. This works well unless you need to differentiate two routes based on the param content. Imagine two routes `/:orderId` and `/:productName`, both would match the exact same URLs, so we need a way to differentiate them. The easiest way would be to add a static section to the path that differentiates them:
-
+Вказуючи параметри, як `:userId`, ми цілеспрямовано використовуємо наступний регулярний вираз (regex) `([^/]+)` (принаймні один символ що не є слешем `/`) для того щоб вилучити параметри з адресного рядку (URL). Таке втілення працюватиме лише в разі якщо не буде випадку, де потрібно відзризнити два шляхи по вмісту їхніх параметрів
+Таким чином в дужках, ми можемо вказати власний регулярний вираз для параметра
 ```js
 const routes = [
-  // matches /o/3549
+  // відповідає /o/3549
   { path: '/o/:orderId' },
-  // matches /p/books
+  // відповідає /p/books
   { path: '/p/:productName' },
 ]
 ```
 
-But in some scenarios we don't want to add that static section `/o`/`p`. However, `orderId` is always a number while `productName` can be anything, so we can specify a custom regex for a param in parentheses:
+Але в певних випадках, ми не хочемо додавати цю статичну секцію `/o`/`p`. Однак параметр `orderId` завжди є числом, в той час, як  `productName` може бути будь-чим іншим.
+Таким чином в дужках, для параметра можна вказати власний регулярний вираз:
 
 ```js
 const routes = [
-  // /:orderId -> matches only numbers
+  // /:orderId -> враховує лише числа
   { path: '/:orderId(\\d+)' },
-  // /:productName -> matches anything else
+  // /:productName -> враховує все інше
   { path: '/:productName' },
 ]
 ```
 
-Now, going to `/25` will match `/:orderId` while going to anything else will match `/:productName`. The order of the `routes` array doesn't even matter!
+Тепер, шлях з параметром `/25` відповідатиме параметру `/:orderId`, а всі інші шляхи параметру `/:productName`. Порядок налаштування шляхів не має значення
 
 :::tip
-Make sure to **escape backslashes (`\`)** like we did with `\d` (becomes `\\d`) to actually pass the backslash character in a string in JavaScript.
+Зверніть увагу на те як **уникнули зворотного слешу (`\`)** в прикладі вище - `\d` стає `\\d`. Це потрібно для щоб насправді передати слеш як символ в Javascript рядку.
 :::
 
-## Repeatable params
+## Повторювані параметри 
 
-If you need to match routes with multiple sections like `/first/second/third`, you should mark a param as repeatable with `*` (0 or more) and `+` (1 or more):
+Якщо потрібно, щоб шлях був доступним за адресним рядком з декількома секціями, на кшталт  `/first/second/third`, в такому випадку можна можна позначити параметр як повторюваний, 
+за допомогою `*` символу (0 або більше параметрів) або `+` (1 або більше параметрів)
 
 ```js
 const routes = [
-  // /:chapters -> matches /one, /one/two, /one/two/three, etc
+  // /:chapters -> віпдповідає /one, /one/two, /one/two/three, etc
   { path: '/:chapters+' },
-  // /:chapters -> matches /, /one, /one/two, /one/two/three, etc
+  // /:chapters -> віпдповідає /, /one, /one/two, /one/two/three, etc
   { path: '/:chapters*' },
 ]
 ```
 
-This will give you an array of params instead of a string and will also require you to pass an array when using named routes:
+Це поверне масив параметрів замість рядків, і також при використанні іменованих шляхів вимагатиме передати  масив
 
 ```js
-// given { path: '/:chapters*', name: 'chapters' },
+// якщо { path: '/:chapters*', name: 'chapters' },
 router.resolve({ name: 'chapters', params: { chapters: [] } }).href
-// produces /
+// видасть /
 router.resolve({ name: 'chapters', params: { chapters: ['a', 'b'] } }).href
-// produces /a/b
+// видасть /a/b
 
-// given { path: '/:chapters+', name: 'chapters' },
+// якщо { path: '/:chapters+', name: 'chapters' },
 router.resolve({ name: 'chapters', params: { chapters: [] } }).href
-// throws an Error because `chapters` is empty
+// видсть помилку, оскільки параметр `chapters` - пустий
 ```
 
-These can also be combined with a custom regex by adding them **after the closing parentheses**:
-
+Такі шляхи також можуть включати в себе регулярні вирази (regex), додаючи їх **після закриваючих дужок**
 ```js
 const routes = [
-  // only match numbers
-  // matches /1, /1/2, etc
+  // враховуй лише числа
+  // відповідає /1, /1/2, і т.д.
   { path: '/:chapters(\\d+)+' },
-  // matches /, /1, /1/2, etc
+  // відповідає /, /1, /1/2, і т.д
   { path: '/:chapters(\\d+)*' },
 ]
 ```
 
-## Sensitive and strict route options 
+## Строгі та чутливі шляхи
 
-By default, all routes are case-insensitive and match routes with or without a trailing slash. e.g. a route `/users` matches `/users`, `/users/`, and even `/Users/`. This behavior can be configured with the `strict` and `sensitive` options, they can be set both at a router and route level:
+
+За замовчуванням, усі шляхи не чутливі до регістру і відповідають шляхам що мають або не мають похилу риску (slash) в кінці адресного рядку, наприклад `/users` відповідає як `/users` так і `/users/`, та навіть `/Users`. 
+Така поведінка може бути налаштована за допомогою опцій `strict` та `sensitive`, що можуть бути встановлені як на рівні певного шляху так і на рівні маршрутизатора:
 
 ```js
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // will match /users/posva but not:
-    // - /users/posva/ because of strict: true
-    // - /Users/posva because of sensitive: true
+    // відповідатиме /users/posva but not:
+    // - /users/posva/ оскільки strict: true
+    // - /Users/posva оскільки sensitive: true
     { path: '/users/:id', sensitive: true },
-    // will match /users, /Users, and /users/42 but not /users/ or /users/42/
+    // відповідатиме /users, /Users, так /users/42, але не /users/ або /users/42/
     { path: '/users/:id?' },
   ],
-  strict: true, // applies to all routes
+  strict: true, // застосовується до всіх шляхів
 })
 ```
 
-## Optional parameters
+## Необовʼязкові параметри
 
-You can also mark a parameter as optional by using the `?` modifier (0 or 1):
+За допомогою модифікатора `?` (0 або 1 параметр) можна зазначити вибірковість параметру
 
 ```js
 const routes = [
-  // will match /users and /users/posva
+  // відповідатиме /users та /users/posva
   { path: '/users/:userId?' },
-  // will match /users and /users/42
+  // відповідатиме /users та /users/42
   { path: '/users/:userId(\\d+)?' },
 ]
 ```
+Зверніть увагу, що `*` також позначає параметр як вибірковий, однак на відміну від `*` параметр `?` не є повторюваним.
 
-Note that `*` technically also marks a parameter as optional but `?` parameters cannot be repeated.
+## Виявлення помилок
 
-## Debugging
-
-If you need to dig how your routes are transformed into a regex to understand why a route isn't being matched or, to report a bug, you can use the [path ranker tool](https://paths.esm.dev/?p=AAMeJSyAwR4UbFDAFxAcAGAIJXMAAA..#). It supports sharing your routes through the URL.
+Якщо потрібно розібратись як шляхи конвертуються в регулярні вирази для того щоб виявити чому вони не відповідають зазначеним адресним рядкам або для того щоб повідомити про помилку,
+для таких цілей можна використовувати [path ranker tool](https://paths.esm.dev/?p=AAMeJSyAwR4UbFDAFxAcAGAIJXMAAA..#), що дозволяє ділитись шляхами за допомогою адресного рядку (URL)

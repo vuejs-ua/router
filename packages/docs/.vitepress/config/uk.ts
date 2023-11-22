@@ -77,7 +77,7 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/guide/essentials/dynamic-matching.html',
             },
             {
-              text: "Синтаксис відповідності шляхів",
+              text: "Синтаксис зіставлення шляхів",
               link: '/guide/essentials/route-matching-syntax.html',
             },
             {
