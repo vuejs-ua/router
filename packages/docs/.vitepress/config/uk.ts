@@ -177,5 +177,10 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         },
       ],
     },
+
+    docFooter: {
+        prev: 'Попередня сторінка',
+        next: 'Наступна сторінка',
+    }
   },
 }
