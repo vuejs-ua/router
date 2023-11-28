@@ -178,6 +178,10 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       ],
     },
 
+    outline: {
+        label: 'На цій сторінці',
+    },
+
     docFooter: {
         prev: 'Попередня сторінка',
         next: 'Наступна сторінка',
