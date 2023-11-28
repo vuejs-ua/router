@@ -1,11 +1,11 @@
-# Getting Started
+# Початок роботи
 
 <VueSchoolLink
   href="https://vueschool.io/courses/vue-router-4-for-everyone"
   title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School"
->Watch a Free Vue Router Video Course</VueSchoolLink>
+>Переглянути безкоштовний відеокурс про Vue Router</VueSchoolLink>
 
-Creating a Single-page Application with Vue + Vue Router feels natural: with Vue.js, we are already composing our application with components. When adding Vue Router to the mix, all we need to do is map our components to the routes and let Vue Router know where to render them. Here's a basic example:
+Створення односторінкового застосунку за допомогою Vue + Vue Router здається природним: за допомогою Vue.js ми вже складаємо наш застосунок з компонентів. Додаючи Vue Router, все, що нам потрібно зробити, це прив'язати наші компоненти до маршрутів і вказати Vue Router, де їх рендерити. Ось базовий приклад:
 
 ## HTML
 
@@ -14,74 +14,73 @@ Creating a Single-page Application with Vue + Vue Router feels natural: with Vue
 <script src="https://unpkg.com/vue-router@4"></script>
 
 <div id="app">
-  <h1>Hello App!</h1>
+  <h1>Привіт!</h1>
   <p>
-    <!-- use the router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- `<router-link>` will render an `<a>` tag with the correct `href` attribute -->
-    <router-link to="/">Go to Home</router-link>
-    <router-link to="/about">Go to About</router-link>
+    <!-- використовуйте компонент router-link для навігації. -->
+    <!-- вкажіть посилання, передавши властивість `to`. -->
+    <!-- `<router-link>` відрендерить тег `<a>` з відповідним атрибутом `href` -->
+    <router-link to="/">Перейти на головну сторінку</router-link>
+    <router-link to="/about">Перейти до розділу Про нас</router-link>
   </p>
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
+  <!-- вихід з маршруту -->
+  <!-- компонент, якому відповідає маршрут, буде відрендерено тут -->
   <router-view></router-view>
 </div>
 ```
 
 ### `router-link`
 
-Note how instead of using regular `a` tags, we use a custom component `router-link` to create links. This allows Vue Router to change the URL without reloading the page, handle URL generation as well as its encoding. We will see later how to benefit from these features.
+Зверніть увагу, що замість звичайних тегів `a` ми використовуємо користувацький компонент `router-link` для створення посилань. Це дозволяє Vue Router змінювати URL-адресу без перезавантаження сторінки, обробляти генерацію URL-адреси, а також її кодування. Пізніше ми побачимо, як скористатися цими можливостями.
 
 ### `router-view`
 
-`router-view` will display the component that corresponds to the URL. You can put it anywhere to adapt it to your layout.
+`router-view` відобразить компонент, який відповідає URL-адресі. Ви можете розмістити його де завгодно, щоб адаптувати до вашого макету.
 
 <VueMasteryLogoLink></VueMasteryLogoLink>
 
 ## JavaScript
 
 ```js
-// 1. Define route components.
-// These can be imported from other files
+// 1. Визначення компонента маршруту.
+// Вони можуть бути імпортовані з інших файлів
 const Home = { template: '<div>Home</div>' }
 const About = { template: '<div>About</div>' }
 
-// 2. Define some routes
-// Each route should map to a component.
-// We'll talk about nested routes later.
+// 2. Визначення деяких маршрутів
+// Кожен маршрут має бути прив'язаний до компонента.
+// Про вкладені маршрути ми поговоримо пізніше.
 const routes = [
   { path: '/', component: Home },
   { path: '/about', component: About },
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+// 3. Створення екземпляра маршрутизатора, передавши параметр `routes`.
+// Ви можете передати додаткові опції тут, але нехай наразі буде спрощено.
 const router = VueRouter.createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+  // 4. Реалізація історії для подальшого використання. Для простоти використовується хеш-історія.
   history: VueRouter.createWebHashHistory(),
-  routes, // short for `routes: routes`
+  routes, // скорочено від `routes: routes`
 })
 
-// 5. Create and mount the root instance.
+// 5. Створення і монтування кореневого екземпляра.
 const app = Vue.createApp({})
-// Make sure to _use_ the router instance to make the
-// whole app router-aware.
+// Переконайтеся, що ви _використовуєте_ екземпляр маршрутизатора,
+// щоб весь додаток знав про маршрутизатор.
 app.use(router)
 
 app.mount('#app')
 
-// Now the app has started!
+// Тепер застосунок запущено!
 ```
 
-By calling `app.use(router)`, we are triggering the initial navigation and giving access to `this.$router` as well as the current route as `this.$route` inside of any component:
+Викликаючи `app.use(router)`, ми запускаємо початкову навігацію і надаємо доступ до `this.$router`, а також до поточного маршруту як `this.$route` всередині будь-якого компонента:
 
 ```js
 // Home.vue
 export default {
   computed: {
     username() {
-      // We will see what `params` is shortly
+      // Незабаром ми побачимо, що таке "параметри маршруту"
       return this.$route.params.username
     },
   },
@@ -97,6 +96,6 @@ export default {
 }
 ```
 
-To access the router or the route inside the `setup` function, call the `useRouter` or `useRoute` functions. We will learn more about this in [the Composition API](./advanced/composition-api.md#accessing-the-router-and-current-route-inside-setup)
+Щоб отримати доступ до маршрутизатора або маршруту всередині функції `setup`, викличте функції `useRouter` або `useRoute`. Ми дізнаємося більше про це у [композиційного АРІ](./advanced/composition-api.md#accessing-the-router-and-current-route-inside-setup)
 
-Throughout the docs, we will often use the `router` instance. Keep in mind that `this.$router` is exactly the same as directly using the `router` instance created through `createRouter`. The reason we use `this.$router` is because we don't want to import the router in every single component that needs to manipulate routing.
+У цій документації ми часто будемо використовувати екземпляр `router`. Майте на увазі, що `this.$router` - це те саме, що безпосередньо використовувати екземпляр `router`, створений за допомогою `createRouter`. Причина використання `this.$router` полягає у тому, що ми не хочемо імпортувати маршрутизатор у кожен окремий компонент, який потребує маніпуляцій з маршрутизацією.
