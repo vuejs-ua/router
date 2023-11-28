@@ -24,7 +24,7 @@ const routes = [
 
 To link to a named route, you can pass an object to the `router-link` component's `to` prop:
 
-```html
+```vue-html
 <router-link :to="{ name: 'user', params: { username: 'erina' }}">
   User
 </router-link>
@@ -40,4 +40,4 @@ In both cases, the router will navigate to the path `/user/erina`.
 
 Full example [here](https://github.com/vuejs/vue-router/blob/dev/examples/named-routes/app.js).
 
-Each name **must be unique** across all routes. If you add the same name to multiple routes, the router will only keep the last one. You can read more about this [in the Dynamic Routing](../advanced/dynamic-routing.md#removing-routes) section.
+Each name **must be unique** across all routes. If you add the same name to multiple routes, the router will only keep the last one. You can read more about this [in the Dynamic Routing](../advanced/dynamic-routing.md#Removing-routes) section.
