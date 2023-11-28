@@ -1,9 +1,8 @@
 # Початок роботи
 
 <VueSchoolLink
-  href="https://vueschool.io/courses/vue-router-4-for-everyone"
-  title="Learn how to build powerful Single Page Applications with the Vue Router on Vue School"
->Переглянути безкоштовний відеокурс про Vue Router</VueSchoolLink>
+href="https://vueschool.io/courses/vue-router-4-for-everyone"
+title="Дізнайтеся, як створювати потужні односторінкові програми за допомогою Vue Router у Vue School">Перегляньте безкоштовний відеокурс Vue Router</VueSchoolLink>
 
 Створення односторінкового застосунку за допомогою Vue + Vue Router здається природним: за допомогою Vue.js ми вже складаємо наш застосунок з компонентів. Додаючи Vue Router, все, що нам потрібно зробити, це прив'язати наші компоненти до маршрутів і вказати Vue Router, де їх рендерити. Ось базовий приклад:
 
@@ -96,6 +95,6 @@ export default {
 }
 ```
 
-Щоб отримати доступ до маршрутизатора або маршруту всередині функції `setup`, викличте функції `useRouter` або `useRoute`. Ми дізнаємося більше про це у [композиційного АРІ](./advanced/composition-api.md#accessing-the-router-and-current-route-inside-setup)
+Щоб отримати доступ до маршрутизатора або маршруту всередині функції `setup`, викличте функції `useRouter` або `useRoute`. Ми дізнаємося більше про це у [композиційного АРІ](./advanced/composition-api.md#Accessing-the-Router-and-current-Route-inside-setup)
 
 У цій документації ми часто будемо використовувати екземпляр `router`. Майте на увазі, що `this.$router` - це те саме, що безпосередньо використовувати екземпляр `router`, створений за допомогою `createRouter`. Причина використання `this.$router` полягає у тому, що ми не хочемо імпортувати маршрутизатор у кожен окремий компонент, який потребує маніпуляцій з маршрутизацією.
